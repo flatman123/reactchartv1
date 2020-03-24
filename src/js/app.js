@@ -6,7 +6,7 @@ import Chart from './chart';
 class App extends React.Component{
 	render(){
 		return(
-			<Chart width="700" height="1000" />
+			<Chart width="700" height="700" />
 		)
 	}
 };

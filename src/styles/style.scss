@@ -1,5 +1,6 @@
 $bar-color: steelblue;
 $default-font-size: 1em;
+$title-font-size: 2em;
 
 rect{
     fill:$bar-color;
@@ -8,3 +9,6 @@ text{
     font-size: $default-font-size;
 }
 
+.the-title{
+    font-size: $title-font-size;
+}
