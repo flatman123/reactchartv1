@@ -2,11 +2,12 @@
   "name": "reactproject2",
   "version": "1.0.0",
   "description": "ChartApp",
+  "private": true,
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode development",
-    "start": "webpack-dev-server --mode production --open",
+    "start": "webpack-dev-server --mode development --open",
     "babelBuild": "babel src -d lib"
   },
   "author": "jeffrey mcintyre",
@@ -14,8 +15,8 @@
   "dependencies": {
     "d3": "^5.15.0",
     "d3-fetch": "^1.1.2",
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "webpack": "^4.42.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3"

@@ -1,0 +1,10 @@
+$bar-color: steelblue;
+$default-font-size: 1em;
+
+rect{
+    fill:$bar-color;
+}
+text{
+    font-size: $default-font-size;
+}
+

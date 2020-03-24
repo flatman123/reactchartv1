@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import LoadChart from './d3specs';
 import { selectAll, csvParse, max } from 'd3';
 import { arc,
          csv,
@@ -14,10 +15,11 @@ class Chart extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            newColor: 'blue',
+            newColor: 'steelblue',
             rendered: false,
             cData: null
         }
+        this.fetchData = this.fetchData.bind(this);
    }
 
     componentDidUpdate(){
@@ -42,13 +44,18 @@ class Chart extends React.Component {
         const yScale = scaleBand()
                         .domain(data.map(countries))
                         .range([0, innerHeight])
+                        .padding(0.2)
+                        .selectAll('tick line')
+                        .remove()
 
         const svg = select('svg')
                         .append('g')
                         .attr('transform', `translate(${margin.left}, ${margin.top})`);
                         
             //This will create a scale for the yAxis
-        svg.append('g').call(axisLeft(yScale));
+        svg.append('g').call(axisLeft(yScale))
+                       .select('domain')
+                       .remove()
         svg.append('g').call(axisBottom(xScale))
                        .attr('transform', `translate(0, ${innerHeight})`);
 
@@ -59,38 +66,28 @@ class Chart extends React.Component {
                                 .attr('y', d => yScale(countries(d)))
                                 .attr('width', d => xScale(population(d))) // Sets each rect to be te length of the value
                                 .attr('height', yScale.bandwidth())
-                                    .attr('fill', this.state.newColor)
+                                    .attr('fill', this.state.newColor)                                                          
+   };
 
-   }
-
-
-    UNSAFE_componentWillMount(){
+    fetchData(e){
             //Fetch data from CSV file
         const csvData = "https://cdn.shopify.com/s/files/1/0147/7997/3732/files/countries.csv?v=1584617981";
+        //const csvData = "./countries.csv";
 
         csv(csvData)
             .then(data => {
                 data.forEach(obj => obj['population'] = +obj['population'] * 1000);
                 this.setState({cData: data}) 
-            })
-            .catch(err => err);
-    }
-
-    shouldComponentUpdate(){
-        //IF WE WILL BE PULLING IN NEW DATA FROM D3, THEN WE will need to control the dom.
-        // Therefore we need for React to never update re-render the Dom
-        //This is D3's responsidbility.
-        //SINCE WE'RE ONLY PULLING FROM CSV ONCE, WE SET IT TO TRUE
-        return true;
-    }
+            })            
+    };
 
     render(){
-
         return (
-            <div>
-                <svg width={this.props.width} height={this.props.height}/>       
-            </div>      
-            
+            <React.Fragment>
+                <h1>CLICK TO LOAD CHART</h1>
+                <LoadChart  renderChart={this.fetchData} /> 
+                <svg width={this.props.width} height={this.props.height}></svg>              
+            </React.Fragment>         
         )
     }
 }
